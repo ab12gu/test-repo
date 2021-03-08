@@ -14,6 +14,7 @@ public class SynchronousPIDF {
     private double m_I; // factor for "integral" control
     private double m_D; // factor for "derivative" control
     private double m_F; // factor for feed forward gain
+    private double m_IZone;  // integrand threshold which kI begins being used
     private double m_maximumOutput = 1.0; // |maximum output|
     private double m_minimumOutput = -1.0; // |minimum output|
     private double m_maximumInput = 0.0; // maximum input - limit setpoint to this
@@ -94,8 +95,13 @@ public class SynchronousPIDF {
         // Don't blow away m_error so as to not break derivative
         double proportionalError = Math.abs(m_error) < m_deadband ? 0 : m_error;
 
-        m_result = (m_P * proportionalError + m_I * m_totalError + m_D * (m_error - m_prevError) / dt
+        m_result = (m_P * proportionalError + m_D * (m_error - m_prevError) / dt
                 + m_F * m_setpoint);
+
+        if (m_totalError >= m_IZone) {
+            m_result += m_I * m_totalError;
+        }
+
         m_prevError = m_error;
 
         return Util.limit(m_result, m_minimumOutput, m_maximumOutput);
@@ -127,6 +133,10 @@ public class SynchronousPIDF {
     public void setPIDF(double p, double i, double d, double f) {
         setPID(p, i, d);
         m_F = f;
+    }
+
+    public void setIZone(double iZone) {
+        m_IZone = iZone;
     }
 
     /**

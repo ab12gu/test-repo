@@ -1,6 +1,6 @@
 package com.team254.lib.util;
 
-import com.team254.frc2021.Constants;
+import com.team254.lib.geometry.Rotation2d;
 
 import java.util.List;
 
@@ -73,6 +73,47 @@ public class Util {
         return result;
     }
 
+    public static double bound0To2PIRadians(double radians) {
+        return Math.toRadians(bound0To360Degrees(Math.toDegrees(radians)));
+    }
+
+    public static double bound0To360Degrees(double degrees) {
+        degrees %= 360;
+        if (degrees < 0) {
+            degrees += 360;
+        }
+
+        return degrees;
+    }
+
+    /**
+     * Optimizes azimuth setpoints and drive velocity setpoints so no needed azimuth rotation is > pi/2 radians
+     * and adjusts drive velocity direction accordingly
+     *
+     * @param signal Raw DriveSignal
+     */
+    public static DriveSignal adjustDriveSignal(DriveSignal signal, Rotation2d[] currentAzis) {
+        Rotation2d[] aziSetpoints = signal.getWheelAzimuths();
+        double[] velSetpoints = signal.getWheelSpeeds();
+
+        for (int i = 0; i < 4; i++) {
+            double boundedAziSetpoint = Util.bound0To2PIRadians(aziSetpoints[i].getRadians());
+            double boundedAziCurrent = Util.bound0To2PIRadians(currentAzis[i].getRadians());
+            double error = Util.bound0To2PIRadians(boundedAziSetpoint - boundedAziCurrent);
+            if (error > Math.PI) {
+                error -= Math.PI;
+            } else if (error < -Math.PI) {
+                error += Math.PI;
+            }
+
+            if (Math.abs(error) > Math.PI / 2) {
+                velSetpoints[i] *= -1;
+                aziSetpoints[i] = oppositeAngle(aziSetpoints[i]);
+            }
+        }
+        return new DriveSignal(velSetpoints, aziSetpoints);
+    }
+
     public static double handleDeadband(double value, double deadband) {
         deadband = Math.abs(deadband);
         if (deadband == 1) {
@@ -80,5 +121,11 @@ public class Util {
         }
         double scaledValue = (value + (value < 0 ? deadband : -deadband)) / (1 - deadband);
         return (Math.abs(value) > Math.abs(deadband)) ? scaledValue : 0;
+    }
+
+    public static Rotation2d oppositeAngle(Rotation2d angle) {
+        double angleM = Util.bound0To2PIRadians(angle.getRadians());
+        angleM += Math.PI;
+        return Rotation2d.fromRadians(angleM % (2 * Math.PI));
     }
 }

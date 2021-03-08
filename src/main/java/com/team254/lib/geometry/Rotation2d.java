@@ -109,6 +109,24 @@ public class Rotation2d implements IRotation2d<Rotation2d> {
     }
 
     /**
+     * Based on Team 1323's method of the same name.
+     *
+     * @return Rotation2d representing the angle of the nearest axis to the angle in standard position
+     */
+    public Rotation2d nearestPole() {
+        double pole_sin = 0.0;
+        double pole_cos = 0.0;
+        if (Math.abs(cos_angle_) > Math.abs(sin_angle_)) {
+            pole_cos = Math.signum(cos_angle_);
+            pole_sin = 0.0;
+        } else {
+            pole_cos = 0.0;
+            pole_sin = Math.signum(sin_angle_);
+        }
+        return new Rotation2d(pole_cos, pole_sin, false);
+    }
+
+    /**
      * We can rotate this Rotation2d by adding together the effects of it and
      * another rotation.
      *
