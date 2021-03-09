@@ -43,7 +43,7 @@ public class SwerveModule extends Subsystem {
         public boolean kInvertAzimuth = false;
         public boolean kInvertAzimuthSensorPhase = false;
         public NeutralMode kAzimuthInitNeutralMode = NeutralMode.Brake; // neutral mode could change
-        public double kAzimuthTicksPerRadian = 4096.0 / (2 * Math.PI); // for azimuth
+        public double kAzimuthTicksPerRadian = 2048.0 / (2 * Math.PI); // for azimuth
         public double kAzimuthEncoderHomeOffset = 0;
 
         // azimuth motion TODO tune
@@ -75,7 +75,7 @@ public class SwerveModule extends Subsystem {
         public boolean kInvertDriveSensorPhase = false;
         public NeutralMode kDriveInitNeutralMode = NeutralMode.Brake; // neutral mode could change
         public double kWheelDiameter = 4.0; // Probably should tune for each individual wheel maybe
-        public double kDriveTicksPerUnitDistance = (1.0 / 4096.0) / (34.0 / 14.0 * 16.0 / 28.0 * 60.0 / 15.0)
+        public double kDriveTicksPerUnitDistance = (1.0 / 2048.0) / (34.0 / 14.0 * 16.0 / 28.0 * 60.0 / 15.0)
                 * (Math.PI * kWheelDiameter);   // TODO double check
         public double kDriveDeadband = 0.01;
 
@@ -121,7 +121,6 @@ public class SwerveModule extends Subsystem {
                 "Error in " + mConstants.kName + "Module: Unable to config drive encoder");
 
         // config azimuth motion
-        mAzimuthPIDF.setDeadband(mConstants.kAzimuthClosedLoopAllowableError);
 //        TalonUtil.checkError(
 //                mAzimuthTalon.configMotionCruiseVelocity(mConstants.kAzimuthCruiseVelocity,
 //                        Constants.kLongCANTimeoutMs),
@@ -151,6 +150,7 @@ public class SwerveModule extends Subsystem {
 
         mAzimuthPIDF = new SynchronousPIDF(mConstants.kAzimuthKp, mConstants.kAzimuthKi, mConstants.kAzimuthKd, mConstants.kAzimuthKf);
         mAzimuthPIDF.setIZone(mConstants.kAzimuthIZone);
+        mAzimuthPIDF.setDeadband(mConstants.kAzimuthClosedLoopAllowableError);
 //        TalonUtil.checkError(
 //                mAzimuthTalon.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0,
 //                        mConstants.kAzimuthStatusFrame2UpdateRate, Constants.kLongCANTimeoutMs),
