@@ -30,48 +30,48 @@ public class Constants {
     // TODO get wheel home positions and check encoder ports are correct
     // swerve modules
     // zero - bezels to left
-    public static final SwerveModuleConstants kFrontRightModuleConstants = new SwerveModuleConstants();
-
-    static {
-        kFrontRightModuleConstants.kName = "Front Right";
-        kFrontRightModuleConstants.kDriveTalonId = 1;
-        kFrontRightModuleConstants.kAzimuthTalonId = 2;
-        kFrontRightModuleConstants.kAzimuthEncoderPortA = 2;
-        kFrontRightModuleConstants.kAzimuthEncoderPortB = 3;
-        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
-    }
-
-    public static final SwerveModuleConstants kFrontLeftModuleConstants = new SwerveModuleConstants();
-
-    static {
-        kFrontLeftModuleConstants.kName = "Front Left";
-        kFrontLeftModuleConstants.kDriveTalonId = 3;
-        kFrontLeftModuleConstants.kAzimuthTalonId = 4;
-        kFrontLeftModuleConstants.kAzimuthEncoderPortA = 0;
-        kFrontLeftModuleConstants.kAzimuthEncoderPortB = 1;
-        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
-    }
-
     public static final SwerveModuleConstants kBackLeftModuleConstants = new SwerveModuleConstants();
 
     static {
         kBackLeftModuleConstants.kName = "Back Left";
-        kBackLeftModuleConstants.kDriveTalonId = 5;
-        kBackLeftModuleConstants.kAzimuthTalonId = 6;
-        kBackLeftModuleConstants.kAzimuthEncoderPortA = 4;
-        kBackLeftModuleConstants.kAzimuthEncoderPortB = 5;
-        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackLeftModuleConstants.kDriveTalonId = 1;
+        kBackLeftModuleConstants.kAzimuthTalonId = 2;
+        kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
+        kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
+        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 255.5;
     }
 
     public static final SwerveModuleConstants kBackRightModuleConstants = new SwerveModuleConstants();
 
     static {
         kBackRightModuleConstants.kName = "Back Right";
-        kBackRightModuleConstants.kDriveTalonId = 7;
-        kBackRightModuleConstants.kAzimuthTalonId = 8;
-        kBackRightModuleConstants.kAzimuthEncoderPortA = 6;
-        kBackRightModuleConstants.kAzimuthEncoderPortB = 7;
-        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackRightModuleConstants.kDriveTalonId = 3;
+        kBackRightModuleConstants.kAzimuthTalonId = 4;
+        kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
+        kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
+        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = -34.0;
+    }
+
+    public static final SwerveModuleConstants kFrontRightModuleConstants = new SwerveModuleConstants();
+
+    static {
+        kFrontRightModuleConstants.kName = "Front Right";
+        kFrontRightModuleConstants.kDriveTalonId = 5;
+        kFrontRightModuleConstants.kAzimuthTalonId = 6;
+        kFrontRightModuleConstants.kAzimuthEncoderPortA = 4;
+        kFrontRightModuleConstants.kAzimuthEncoderPortB = 5;
+        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = -505.75;
+    }
+
+    public static final SwerveModuleConstants kFrontLeftModuleConstants = new SwerveModuleConstants();
+
+    static {
+        kFrontLeftModuleConstants.kName = "Front Left";
+        kFrontLeftModuleConstants.kDriveTalonId = 7;
+        kFrontLeftModuleConstants.kAzimuthTalonId = 8;
+        kFrontLeftModuleConstants.kAzimuthEncoderPortA = 6;
+        kFrontLeftModuleConstants.kAzimuthEncoderPortB = 7;
+        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 99.5;
     }
 
     // TODO tune
