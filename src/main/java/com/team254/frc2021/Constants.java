@@ -39,6 +39,10 @@ public class Constants {
         kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
         kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
         kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 255.5;
+        kBackLeftModuleConstants.kInvertDrive = false;
+        kBackLeftModuleConstants.kInvertAzimuth = false;
+        kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
+        kBackLeftModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
     public static final SwerveModuleConstants kBackRightModuleConstants = new SwerveModuleConstants();
@@ -50,6 +54,10 @@ public class Constants {
         kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
         kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
         kBackRightModuleConstants.kAzimuthEncoderHomeOffset = -34.0;
+        kBackRightModuleConstants.kInvertDrive = true;
+        kBackRightModuleConstants.kInvertAzimuth = false;
+        kBackRightModuleConstants.kInvertDriveSensorPhase = false;
+        kBackRightModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
     public static final SwerveModuleConstants kFrontRightModuleConstants = new SwerveModuleConstants();
@@ -61,6 +69,10 @@ public class Constants {
         kFrontRightModuleConstants.kAzimuthEncoderPortA = 4;
         kFrontRightModuleConstants.kAzimuthEncoderPortB = 5;
         kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = -505.75;
+        kFrontRightModuleConstants.kInvertDrive = true;
+        kFrontRightModuleConstants.kInvertAzimuth = false;
+        kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
+        kFrontRightModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
     public static final SwerveModuleConstants kFrontLeftModuleConstants = new SwerveModuleConstants();
@@ -72,6 +84,10 @@ public class Constants {
         kFrontLeftModuleConstants.kAzimuthEncoderPortA = 6;
         kFrontLeftModuleConstants.kAzimuthEncoderPortB = 7;
         kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 99.5;
+        kFrontLeftModuleConstants.kInvertDrive = false;
+        kFrontLeftModuleConstants.kInvertAzimuth = false;
+        kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
+        kFrontLeftModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
     // TODO tune
