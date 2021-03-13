@@ -47,11 +47,11 @@ public class SwerveModule extends Subsystem {
         public double kAzimuthEncoderHomeOffset = 0;
 
         // azimuth motion TODO tune
-        public double kAzimuthKp = 0.0;
-        public double kAzimuthKi = 0.0;
-        public double kAzimuthKd = 0.0;
+        public double kAzimuthKp = 1.0;
+        public double kAzimuthKi = 0.001;
+        public double kAzimuthKd = 3.6;
         public double kAzimuthKf = 0;
-        public int kAzimuthIZone = 0;
+        public int kAzimuthIZone = 2;
         public int kAzimuthCruiseVelocity = 0;
         public int kAzimuthAcceleration = 0; // 12 * kAzimuthCruiseVelocity
         public int kAzimuthClosedLoopAllowableError = 5;
@@ -313,6 +313,8 @@ public class SwerveModule extends Subsystem {
 
     @Override
     public void outputTelemetry() {
+        SmartDashboard.putNumber(mConstants.kName + " Module: Get Value", mAzimuthEncoder.get());
+        SmartDashboard.putNumber(mConstants.kName + " Module: Encoding Scale", mAzimuthEncoder.getEncodingScale());
         SmartDashboard.putNumber(mConstants.kName + " Module: Module Angle", getAngle().getDegrees());
         SmartDashboard.putNumber(mConstants.kName + " Module: Linear Velocity", getLinearVelocity());
         SmartDashboard.putNumber(mConstants.kName + " Module: Distance Driven", mPeriodicIO.distance);

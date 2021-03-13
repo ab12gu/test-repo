@@ -38,7 +38,7 @@ public class Constants {
         kBackLeftModuleConstants.kAzimuthTalonId = 2;
         kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
         kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
-        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 255.5;
+        // kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 255.5;
         kBackLeftModuleConstants.kInvertDrive = false;
         kBackLeftModuleConstants.kInvertAzimuth = false;
         kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -53,7 +53,7 @@ public class Constants {
         kBackRightModuleConstants.kAzimuthTalonId = 4;
         kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
         kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
-        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = -34.0;
+        // kBackRightModuleConstants.kAzimuthEncoderHomeOffset = -34.0;
         kBackRightModuleConstants.kInvertDrive = true;
         kBackRightModuleConstants.kInvertAzimuth = false;
         kBackRightModuleConstants.kInvertDriveSensorPhase = false;
@@ -68,7 +68,8 @@ public class Constants {
         kFrontRightModuleConstants.kAzimuthTalonId = 6;
         kFrontRightModuleConstants.kAzimuthEncoderPortA = 4;
         kFrontRightModuleConstants.kAzimuthEncoderPortB = 5;
-        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = -505.75;
+        // kFrontLeftModuleConstants.kAzimuthKp 
+        // kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = -505.75;
         kFrontRightModuleConstants.kInvertDrive = true;
         kFrontRightModuleConstants.kInvertAzimuth = false;
         kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
@@ -83,7 +84,7 @@ public class Constants {
         kFrontLeftModuleConstants.kAzimuthTalonId = 8;
         kFrontLeftModuleConstants.kAzimuthEncoderPortA = 6;
         kFrontLeftModuleConstants.kAzimuthEncoderPortB = 7;
-        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 99.5;
+        // kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 99.5;
         kFrontLeftModuleConstants.kInvertDrive = false;
         kFrontLeftModuleConstants.kInvertAzimuth = false;
         kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -106,6 +107,8 @@ public class Constants {
 
     // gyro
     public static final int kPigeonId = 0;
+
+
 
     /**
      * @return the MAC address of the robot
