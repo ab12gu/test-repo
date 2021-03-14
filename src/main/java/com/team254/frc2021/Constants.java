@@ -27,49 +27,18 @@ public class Constants {
     public static final double kDriveWheelbase = 9.5;
     public static final double kDriveTrackwidth = 9.5;
 
-    // TODO get wheel home positions and check encoder ports are correct
+    // TODO get wheel home positions
     // swerve modules
     // zero - bezels to left
-    public static final SwerveModuleConstants kBackLeftModuleConstants = new SwerveModuleConstants();
-
-    static {
-        kBackLeftModuleConstants.kName = "Back Left";
-        kBackLeftModuleConstants.kDriveTalonId = 1;
-        kBackLeftModuleConstants.kAzimuthTalonId = 2;
-        kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
-        kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
-        // kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 255.5;
-        kBackLeftModuleConstants.kInvertDrive = false;
-        kBackLeftModuleConstants.kInvertAzimuth = false;
-        kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
-        kBackLeftModuleConstants.kInvertAzimuthSensorPhase = false;
-    }
-
-    public static final SwerveModuleConstants kBackRightModuleConstants = new SwerveModuleConstants();
-
-    static {
-        kBackRightModuleConstants.kName = "Back Right";
-        kBackRightModuleConstants.kDriveTalonId = 3;
-        kBackRightModuleConstants.kAzimuthTalonId = 4;
-        kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
-        kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
-        // kBackRightModuleConstants.kAzimuthEncoderHomeOffset = -34.0;
-        kBackRightModuleConstants.kInvertDrive = true;
-        kBackRightModuleConstants.kInvertAzimuth = false;
-        kBackRightModuleConstants.kInvertDriveSensorPhase = false;
-        kBackRightModuleConstants.kInvertAzimuthSensorPhase = false;
-    }
-
     public static final SwerveModuleConstants kFrontRightModuleConstants = new SwerveModuleConstants();
 
     static {
         kFrontRightModuleConstants.kName = "Front Right";
-        kFrontRightModuleConstants.kDriveTalonId = 5;
-        kFrontRightModuleConstants.kAzimuthTalonId = 6;
+        kFrontRightModuleConstants.kDriveTalonId = 1;
+        kFrontRightModuleConstants.kAzimuthTalonId = 2;
         kFrontRightModuleConstants.kAzimuthEncoderPortA = 4;
         kFrontRightModuleConstants.kAzimuthEncoderPortB = 5;
-        // kFrontLeftModuleConstants.kAzimuthKp 
-        // kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = -505.75;
+        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
         kFrontRightModuleConstants.kInvertDrive = true;
         kFrontRightModuleConstants.kInvertAzimuth = false;
         kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
@@ -80,15 +49,45 @@ public class Constants {
 
     static {
         kFrontLeftModuleConstants.kName = "Front Left";
-        kFrontLeftModuleConstants.kDriveTalonId = 7;
-        kFrontLeftModuleConstants.kAzimuthTalonId = 8;
+        kFrontLeftModuleConstants.kDriveTalonId = 3;
+        kFrontLeftModuleConstants.kAzimuthTalonId = 4;
         kFrontLeftModuleConstants.kAzimuthEncoderPortA = 6;
         kFrontLeftModuleConstants.kAzimuthEncoderPortB = 7;
-        // kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 99.5;
+        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
         kFrontLeftModuleConstants.kInvertDrive = false;
         kFrontLeftModuleConstants.kInvertAzimuth = false;
         kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
         kFrontLeftModuleConstants.kInvertAzimuthSensorPhase = false;
+    }
+
+    public static final SwerveModuleConstants kBackLeftModuleConstants = new SwerveModuleConstants();
+
+    static {
+        kBackLeftModuleConstants.kName = "Back Left";
+        kBackLeftModuleConstants.kDriveTalonId = 5;
+        kBackLeftModuleConstants.kAzimuthTalonId = 6;
+        kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
+        kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
+        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackLeftModuleConstants.kInvertDrive = false;
+        kBackLeftModuleConstants.kInvertAzimuth = false;
+        kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
+        kBackLeftModuleConstants.kInvertAzimuthSensorPhase = false;
+    }
+
+    public static final SwerveModuleConstants kBackRightModuleConstants = new SwerveModuleConstants();
+
+    static {
+        kBackRightModuleConstants.kName = "Back Right";
+        kBackRightModuleConstants.kDriveTalonId = 7;
+        kBackRightModuleConstants.kAzimuthTalonId = 8;
+        kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
+        kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
+        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackRightModuleConstants.kInvertDrive = true;
+        kBackRightModuleConstants.kInvertAzimuth = false;
+        kBackRightModuleConstants.kInvertDriveSensorPhase = false;
+        kBackRightModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
     // TODO tune
