@@ -58,10 +58,10 @@ public class Drive extends Subsystem {
     private Drive() {
         mPigeonIMU = new PigeonIMU(Constants.kPigeonId);
 
-        mModules[0] = new SwerveModule(Constants.kFrontLeftModuleConstants);
-        mModules[1] = new SwerveModule(Constants.kFrontRightModuleConstants);
-        mModules[2] = new SwerveModule(Constants.kBackRightModuleConstants);
-        mModules[3] = new SwerveModule(Constants.kBackLeftModuleConstants);
+        mModules[0] = new SwerveModule(Constants.kFrontRightModuleConstants);
+        mModules[1] = new SwerveModule(Constants.kFrontLeftModuleConstants);
+        mModules[2] = new SwerveModule(Constants.kBackLeftModuleConstants);
+        mModules[3] = new SwerveModule(Constants.kBackRightModuleConstants);
     }
 
     public synchronized void setOpenLoop(DriveSignal signal) {
