@@ -24,7 +24,7 @@ public class UtilTest {
         DriveSignal result = Util.adjustDriveSignal(desired, currentAzis);
 
         Assert.assertArrayEquals(result.getWheelSpeeds(), expected.getWheelSpeeds(), Util.kEpsilon);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < result.getWheelSpeeds().length; i++) {
             Assert.assertEquals(result.getWheelAzimuths()[i].getRadians(), expected.getWheelAzimuths()[i].getRadians(), Util.kEpsilon);
         }
     }
@@ -58,5 +58,30 @@ public class UtilTest {
                 }
         );
         testAdjustDriveSignal(desired1, current1, expected1);
+
+        Rotation2d[] current2 = {
+                Rotation2d.fromRadians(Math.PI / 2),
+                Rotation2d.fromRadians(0),
+                Rotation2d.fromRadians(4 * Math.PI / 3)
+        };
+
+        DriveSignal desired2 = new DriveSignal(
+                new double[]{1, 1, 1},
+                new Rotation2d[] {
+                        Rotation2d.fromRadians(0),
+                        Rotation2d.fromRadians(Math.PI / 6),
+                        Rotation2d.fromRadians(0)
+                }
+        );
+
+        DriveSignal expected2 = new DriveSignal(
+                new double[]{1, 1, -1},
+                new Rotation2d[]{
+                        Rotation2d.fromRadians(0),
+                        Rotation2d.fromRadians(Math.PI / 6),
+                        Rotation2d.fromRadians(Math.PI)
+                }
+        );
+        testAdjustDriveSignal(desired2, current2, expected2);
     }
 }

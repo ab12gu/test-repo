@@ -96,20 +96,19 @@ public class Util {
         Rotation2d[] aziSetpoints = signal.getWheelAzimuths();
         double[] velSetpoints = signal.getWheelSpeeds();
 
-        for (int i = 0; i < 4; i++) {
-            double boundedAziSetpoint = Util.bound0To2PIRadians(aziSetpoints[i].getRadians());
-            double boundedAziCurrent = Util.bound0To2PIRadians(currentAzis[i].getRadians());
-            double error = Util.bound0To2PIRadians(boundedAziSetpoint - boundedAziCurrent);
-            if (error > Math.PI) {
-                error -= Math.PI;
-            } else if (error < -Math.PI) {
-                error += Math.PI;
+        for (int i = 0; i < currentAzis.length; i++) {
+            double raw_error = currentAzis[i].distance(signal.getWheelAzimuths()[i]);
+            if (Math.abs(raw_error) > Math.PI) {
+                raw_error -= (Math.PI * 2 * Math.signum(raw_error));
             }
 
-            if (Math.abs(error) > Math.PI / 2) {
+            // error is -180 to 180
+            // is wheel reversible logic
+            if (Math.abs(raw_error) > Math.PI / 2) {
                 velSetpoints[i] *= -1;
-                aziSetpoints[i] = oppositeAngle(aziSetpoints[i]);
+                raw_error -= Math.PI * Math.signum(raw_error);
             }
+            aziSetpoints[i] = Rotation2d.fromRadians(currentAzis[i].getRadians() + raw_error);
         }
         return new DriveSignal(velSetpoints, aziSetpoints);
     }
@@ -121,11 +120,5 @@ public class Util {
         }
         double scaledValue = (value + (value < 0 ? deadband : -deadband)) / (1 - deadband);
         return (Math.abs(value) > Math.abs(deadband)) ? scaledValue : 0;
-    }
-
-    public static Rotation2d oppositeAngle(Rotation2d angle) {
-        double angleM = Util.bound0To2PIRadians(angle.getRadians());
-        angleM += Math.PI;
-        return Rotation2d.fromRadians(angleM % (2 * Math.PI));
     }
 }
