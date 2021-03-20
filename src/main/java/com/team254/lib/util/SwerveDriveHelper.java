@@ -73,4 +73,12 @@ public class SwerveDriveHelper {
         return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput,
                 field_relative);
     }
+
+    public static DriveSignal passOnDriveSignal(double forwardInput, double strafeInput, double rotationInput,
+                                                boolean low_power, boolean field_relative, boolean use_heading_controller) {
+
+        Translation2d translationalInput = new Translation2d(forwardInput, strafeInput);
+
+        return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput, field_relative);
+    }
 }

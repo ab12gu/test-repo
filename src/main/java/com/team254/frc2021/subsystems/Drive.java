@@ -122,7 +122,10 @@ public class Drive extends Subsystem {
                 synchronized (Drive.this) {
                     switch (mDriveControlState) {
                         case OPEN_LOOP:
-                            setOpenLoop(SwerveDriveHelper.calculateDriveSignal(mPeriodicIO.forward,
+//                            setOpenLoop(SwerveDriveHelper.calculateDriveSignal(mPeriodicIO.forward,
+//                                    mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
+//                                    mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
+                            setOpenLoop(SwerveDriveHelper.passOnDriveSignal(mPeriodicIO.forward,
                                     mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
                                     mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
                             break;
