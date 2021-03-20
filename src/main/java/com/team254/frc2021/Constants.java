@@ -27,7 +27,6 @@ public class Constants {
     public static final double kDriveWheelbase = 9.5;
     public static final double kDriveTrackwidth = 9.5;
 
-    // TODO get wheel home positions
     // swerve modules
     // zero - bezels to left
     public static final SwerveModuleConstants kFrontRightModuleConstants = new SwerveModuleConstants();
@@ -36,9 +35,8 @@ public class Constants {
         kFrontRightModuleConstants.kName = "Front Right";
         kFrontRightModuleConstants.kDriveTalonId = 1;
         kFrontRightModuleConstants.kAzimuthTalonId = 2;
-        kFrontRightModuleConstants.kAzimuthEncoderPortA = 4;
-        kFrontRightModuleConstants.kAzimuthEncoderPortB = 5;
-        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kFrontRightModuleConstants.kAzimuthEncoderPort = 2;
+        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 2028;
         kFrontRightModuleConstants.kInvertDrive = true;
         kFrontRightModuleConstants.kInvertAzimuth = false;
         kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
@@ -51,9 +49,8 @@ public class Constants {
         kFrontLeftModuleConstants.kName = "Front Left";
         kFrontLeftModuleConstants.kDriveTalonId = 3;
         kFrontLeftModuleConstants.kAzimuthTalonId = 4;
-        kFrontLeftModuleConstants.kAzimuthEncoderPortA = 6;
-        kFrontLeftModuleConstants.kAzimuthEncoderPortB = 7;
-        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kFrontLeftModuleConstants.kAzimuthEncoderPort = 3;
+        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 3848;
         kFrontLeftModuleConstants.kInvertDrive = false;
         kFrontLeftModuleConstants.kInvertAzimuth = false;
         kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -66,9 +63,8 @@ public class Constants {
         kBackLeftModuleConstants.kName = "Back Left";
         kBackLeftModuleConstants.kDriveTalonId = 5;
         kBackLeftModuleConstants.kAzimuthTalonId = 6;
-        kBackLeftModuleConstants.kAzimuthEncoderPortA = 2;
-        kBackLeftModuleConstants.kAzimuthEncoderPortB = 3;
-        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackLeftModuleConstants.kAzimuthEncoderPort = 0;
+        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 3215;
         kBackLeftModuleConstants.kInvertDrive = false;
         kBackLeftModuleConstants.kInvertAzimuth = false;
         kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -81,9 +77,8 @@ public class Constants {
         kBackRightModuleConstants.kName = "Back Right";
         kBackRightModuleConstants.kDriveTalonId = 7;
         kBackRightModuleConstants.kAzimuthTalonId = 8;
-        kBackRightModuleConstants.kAzimuthEncoderPortA = 0;
-        kBackRightModuleConstants.kAzimuthEncoderPortB = 1;
-        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 0;
+        kBackRightModuleConstants.kAzimuthEncoderPort = 1;
+        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 4892;
         kBackRightModuleConstants.kInvertDrive = true;
         kBackRightModuleConstants.kInvertAzimuth = false;
         kBackRightModuleConstants.kInvertDriveSensorPhase = false;
