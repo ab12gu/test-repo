@@ -8,7 +8,6 @@ import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.ReflectingCSVWriter;
 import com.team254.lib.util.SwerveDriveHelper;
-import com.team254.lib.util.Util;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -69,7 +68,8 @@ public class Drive extends Subsystem {
             mDriveControlState = ControlState.OPEN_LOOP;
         }
 
-        DriveSignal adjusted = Util.adjustDriveSignal(signal, getModuleAzimuths());
+//        DriveSignal adjusted = Util.adjustDriveSignal(signal, getModuleAzimuths());
+        DriveSignal adjusted = signal;
         mPeriodicIO.wheel_speeds = adjusted.getWheelSpeeds();
         mPeriodicIO.wheel_azimuths = adjusted.getWheelAzimuths();
     }

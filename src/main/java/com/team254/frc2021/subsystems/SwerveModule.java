@@ -68,7 +68,7 @@ public class SwerveModule extends Subsystem {
 //        public int kAzimuthStatusFrame2UpdateRate = 10; // feedback for selected sensor, ms
 //        public int kAzimuthStatusFrame10UpdateRate = 10; // motion magic, ms
 //        public VelocityMeasPeriod kAzimuthVPMeasurementPeriod = VelocityMeasPeriod.Period_100Ms; // dt for velocity measurements, ms
-        public int kAzimuthPositionMeasurementWindow = 64; // # of samples in rolling average
+        public int kAzimuthPositionMeasurementWindow = 1; // # of samples in rolling average
 
         // general drive
         public boolean kInvertDrive = true;
@@ -228,7 +228,20 @@ public class SwerveModule extends Subsystem {
             mControlState = ControlState.OPEN_LOOP;
         }
 
-        double raw_error = getAngle().distance(azimuth);
+        Rotation2d current = getAngle();
+
+        double raw_error = current.distance(azimuth);
+        if (Math.abs(raw_error) > Math.PI) {
+            raw_error -= (Math.PI * 2 * Math.signum(raw_error));
+        }
+
+        // error is -180 to 180
+        // is wheel reversible logic
+        if (Math.abs(raw_error) > Math.PI / 2) {
+            speed *= -1;
+            raw_error -= Math.PI * Math.signum(raw_error);
+        }
+
         double final_setpoint = getRawAngle() + raw_error;
         // double adjusted_speed = speed * Math.abs(Math.cos(raw_error));
 
@@ -258,9 +271,11 @@ public class SwerveModule extends Subsystem {
                 // throttle is 0
                 stop();
             } else {
-                mAzimuthPIDF.setSetpoint(mPeriodicIO.azimuth_demand + mConstants.kAzimuthEncoderHomeOffset);
-                mAzimuthTalon.set(TalonFXControlMode.PercentOutput, mAzimuthPIDF.calculate(
-                        mAzimuthEncoder.get() - mConstants.kAzimuthEncoderHomeOffset));
+                mAzimuthPIDF.setSetpoint(mPeriodicIO.azimuth_demand - mConstants.kAzimuthEncoderHomeOffset);
+                double x = mAzimuthPIDF.calculate(
+                        mPeriodicIO.azimuth_encoder_ticks - mConstants.kAzimuthEncoderHomeOffset);
+                SmartDashboard.putNumber(mConstants.kName + " pidf value: ", x);
+                mAzimuthTalon.set(ControlMode.PercentOutput, x);
 
                 mDriveTalon.set(ControlMode.PercentOutput, mPeriodicIO.drive_demand);
             }

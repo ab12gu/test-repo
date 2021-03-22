@@ -36,7 +36,7 @@ public class Constants {
         kFrontRightModuleConstants.kDriveTalonId = 1;
         kFrontRightModuleConstants.kAzimuthTalonId = 2;
         kFrontRightModuleConstants.kAzimuthEncoderPort = 2;
-        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 2028;
+        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 1016;
         kFrontRightModuleConstants.kInvertDrive = true;
         kFrontRightModuleConstants.kInvertAzimuth = false;
         kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
@@ -50,8 +50,8 @@ public class Constants {
         kFrontLeftModuleConstants.kDriveTalonId = 3;
         kFrontLeftModuleConstants.kAzimuthTalonId = 4;
         kFrontLeftModuleConstants.kAzimuthEncoderPort = 3;
-        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 3848;
-        kFrontLeftModuleConstants.kInvertDrive = false;
+        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 2806;
+        kFrontLeftModuleConstants.kInvertDrive = true;
         kFrontLeftModuleConstants.kInvertAzimuth = false;
         kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
         kFrontLeftModuleConstants.kInvertAzimuthSensorPhase = false;
@@ -64,8 +64,8 @@ public class Constants {
         kBackLeftModuleConstants.kDriveTalonId = 5;
         kBackLeftModuleConstants.kAzimuthTalonId = 6;
         kBackLeftModuleConstants.kAzimuthEncoderPort = 0;
-        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 3215;
-        kBackLeftModuleConstants.kInvertDrive = false;
+        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 2203;
+        kBackLeftModuleConstants.kInvertDrive = true;
         kBackLeftModuleConstants.kInvertAzimuth = false;
         kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
         kBackLeftModuleConstants.kInvertAzimuthSensorPhase = false;
@@ -78,7 +78,7 @@ public class Constants {
         kBackRightModuleConstants.kDriveTalonId = 7;
         kBackRightModuleConstants.kAzimuthTalonId = 8;
         kBackRightModuleConstants.kAzimuthEncoderPort = 1;
-        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 4892;
+        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 3860;
         kBackRightModuleConstants.kInvertDrive = true;
         kBackRightModuleConstants.kInvertAzimuth = false;
         kBackRightModuleConstants.kInvertDriveSensorPhase = false;
