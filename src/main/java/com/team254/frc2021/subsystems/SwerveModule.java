@@ -9,9 +9,10 @@ import com.team254.lib.drivers.TalonFXFactory;
 import com.team254.lib.drivers.TalonUtil;
 import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.util.ReflectingCSVWriter;
+import com.team254.lib.util.RollingAverage;
 import com.team254.lib.util.SynchronousPIDF;
 import com.team254.lib.util.Util;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule extends Subsystem {
@@ -36,25 +37,24 @@ public class SwerveModule extends Subsystem {
         public String kName = "Name";
         public int kDriveTalonId = -1;
         public int kAzimuthTalonId = -1;
-        public int kAzimuthEncoderPortA = -1;
-        public int kAzimuthEncoderPortB = -1;
+        public int kAzimuthEncoderPort = -1;
 
         // general azimuth
         public boolean kInvertAzimuth = false;
         public boolean kInvertAzimuthSensorPhase = false;
         public NeutralMode kAzimuthInitNeutralMode = NeutralMode.Brake; // neutral mode could change
-        public double kAzimuthTicksPerRadian = 2048.0 / (2 * Math.PI); // for azimuth
+        public double kAzimuthTicksPerRadian = 4096.0 / (2 * Math.PI); // for azimuth
         public double kAzimuthEncoderHomeOffset = 0;
 
         // azimuth motion TODO tune
-        public double kAzimuthKp = 1.0;
-        public double kAzimuthKi = 0.001;
-        public double kAzimuthKd = 3.6;
+        public double kAzimuthKp = 0.001;
+        public double kAzimuthKi = 0.01;
+        public double kAzimuthKd = 0.000001;
         public double kAzimuthKf = 0;
-        public int kAzimuthIZone = 2;
+        public int kAzimuthIZone = 0;
         public int kAzimuthCruiseVelocity = 0;
         public int kAzimuthAcceleration = 0; // 12 * kAzimuthCruiseVelocity
-        public int kAzimuthClosedLoopAllowableError = 5;
+        public int kAzimuthClosedLoopAllowableError = 20;
 
         // azimuth current/voltage TODO verify
         public int kAzimuthContinuousCurrentLimit = 30; // amps
@@ -65,10 +65,10 @@ public class SwerveModule extends Subsystem {
         public int kAzimuthVoltageMeasurementFilter = 8; // # of samples in rolling average
 
         // azimuth measurement
-        public int kAzimuthStatusFrame2UpdateRate = 10; // feedback for selected sensor, ms
-        public int kAzimuthStatusFrame10UpdateRate = 10; // motion magic, ms
-        public VelocityMeasPeriod kAzimuthVelocityMeasurementPeriod = VelocityMeasPeriod.Period_100Ms; // dt for velocity measurements, ms
-        public int kAzimuthVelocityMeasurementWindow = 64; // # of samples in rolling average
+//        public int kAzimuthStatusFrame2UpdateRate = 10; // feedback for selected sensor, ms
+//        public int kAzimuthStatusFrame10UpdateRate = 10; // motion magic, ms
+//        public VelocityMeasPeriod kAzimuthVPMeasurementPeriod = VelocityMeasPeriod.Period_100Ms; // dt for velocity measurements, ms
+        public int kAzimuthPositionMeasurementWindow = 64; // # of samples in rolling average
 
         // general drive
         public boolean kInvertDrive = true;
@@ -101,10 +101,12 @@ public class SwerveModule extends Subsystem {
     private TalonFX mDriveTalon;
     private TalonFX mAzimuthTalon;
 
-    private Encoder mAzimuthEncoder;
+    private DutyCycleEncoder mAzimuthEncoder;
     private SynchronousPIDF mAzimuthPIDF;
 
     private ReflectingCSVWriter<PeriodicIO> mCSVWriter = null;
+
+    private RollingAverage mAzimuthAverage;
 
     public SwerveModule(SwerveModuleConstants constants) {
         mConstants = constants;
@@ -112,7 +114,7 @@ public class SwerveModule extends Subsystem {
         mDriveTalon = TalonFXFactory.createDefaultTalon(mConstants.kDriveTalonId);
         mAzimuthTalon = TalonFXFactory.createDefaultTalon(mConstants.kAzimuthTalonId);
 
-        mAzimuthEncoder = new Encoder(mConstants.kAzimuthEncoderPortA, mConstants.kAzimuthEncoderPortB);
+        mAzimuthEncoder = new DutyCycleEncoder(new DutyCycle(new DigitalInput(mConstants.kAzimuthEncoderPort)));
 
         // config sensors
         TalonUtil.checkError(
@@ -147,7 +149,6 @@ public class SwerveModule extends Subsystem {
         mAzimuthTalon.enableVoltageCompensation(true);
 
         // config azimuth measurement settings
-
         mAzimuthPIDF = new SynchronousPIDF(mConstants.kAzimuthKp, mConstants.kAzimuthKi, mConstants.kAzimuthKd, mConstants.kAzimuthKf);
         mAzimuthPIDF.setIZone(mConstants.kAzimuthIZone);
         mAzimuthPIDF.setDeadband(mConstants.kAzimuthClosedLoopAllowableError);
@@ -214,7 +215,9 @@ public class SwerveModule extends Subsystem {
 
         // config general azimuth settings
         mAzimuthTalon.setInverted(mConstants.kInvertAzimuth);
-        mAzimuthEncoder.setReverseDirection(mConstants.kInvertAzimuthSensorPhase);
+        mAzimuthEncoder.setDistancePerRotation(mConstants.kInvertAzimuthSensorPhase ? -4096 : 4096);
+        mAzimuthAverage = new RollingAverage(mConstants.kAzimuthPositionMeasurementWindow);
+
         mAzimuthTalon.setNeutralMode(mConstants.kAzimuthInitNeutralMode);
 
         zeroSensors();
@@ -238,8 +241,10 @@ public class SwerveModule extends Subsystem {
         mPeriodicIO.drive_encoder_ticks = mDriveTalon.getSelectedSensorPosition(0);
         mPeriodicIO.distance = (int) encoderUnitsToDistance(mPeriodicIO.drive_encoder_ticks);
         mPeriodicIO.velocity_ticks_per_100ms = (int) mDriveTalon.getSelectedSensorVelocity(0);
-        mPeriodicIO.azimuth_encoder_ticks = mAzimuthEncoder.getDistance()
-                - mConstants.kAzimuthEncoderHomeOffset;
+
+        mAzimuthAverage.addObservation(mAzimuthEncoder.getDistance());
+        SmartDashboard.putNumber(mConstants.kName + " Module average", mAzimuthAverage.getValue());
+        mPeriodicIO.azimuth_encoder_ticks = mAzimuthAverage.getValue();
 
         if (mCSVWriter != null) {
             mCSVWriter.add(mPeriodicIO);
@@ -313,17 +318,21 @@ public class SwerveModule extends Subsystem {
 
     @Override
     public void outputTelemetry() {
-        SmartDashboard.putNumber(mConstants.kName + " Module: Get Value", mAzimuthEncoder.get());
-        SmartDashboard.putNumber(mConstants.kName + " Module: Encoding Scale", mAzimuthEncoder.getEncodingScale());
+        SmartDashboard.putNumber(mConstants.kName + " Module: Get Raw Value", mAzimuthEncoder.getDistance());
+        SmartDashboard.putNumber(mConstants.kName + " Module: Encoding Scale", mAzimuthEncoder.getDistancePerRotation());
         SmartDashboard.putNumber(mConstants.kName + " Module: Module Angle", getAngle().getDegrees());
         SmartDashboard.putNumber(mConstants.kName + " Module: Linear Velocity", getLinearVelocity());
         SmartDashboard.putNumber(mConstants.kName + " Module: Distance Driven", mPeriodicIO.distance);
+        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Ticks", mPeriodicIO.azimuth_encoder_ticks);
 
         SmartDashboard.putNumber(mConstants.kName + " Module: Drive Demand", mPeriodicIO.drive_demand);
-        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Demand",
+        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Tick Demand", mPeriodicIO.azimuth_demand);
+        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Angle Demand",
                 Math.toDegrees(Util.bound0To2PIRadians(encoderUnitsToRadians(mPeriodicIO.azimuth_demand))));
-        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Error",
+        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Degree Error",
                 Math.toDegrees(encoderUnitsToRadians(mPeriodicIO.azimuth_demand - getAngleEncoderUnits())));
+        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Tick Error",
+                mPeriodicIO.azimuth_demand - getAngleEncoderUnits());
 
         SmartDashboard.putNumber(mConstants.kName + " Module: Actual Drive Percent Output", getDrivePercentOutput());
         SmartDashboard.putBoolean(mConstants.kName + " Module: Drive Demand Equals Actual",
@@ -332,9 +341,6 @@ public class SwerveModule extends Subsystem {
         SmartDashboard.putBoolean(mConstants.kName + " Module: Azimuth At Target", isAzimuthAtTarget());
         SmartDashboard.putNumber(mConstants.kName + " Module: Current", mAzimuthTalon.getOutputCurrent());
         SmartDashboard.putNumber(mConstants.kName + " Module: Voltage", mAzimuthTalon.getMotorOutputVoltage());
-
-        SmartDashboard.putNumber(mConstants.kName + " Module: Azimuth Absolute Encoder Reading",
-                mAzimuthEncoder.getDistance());
 
         if (mCSVWriter != null) {
             mCSVWriter.write();
