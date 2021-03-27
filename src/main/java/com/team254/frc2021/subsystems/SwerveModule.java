@@ -229,32 +229,38 @@ public class SwerveModule extends Subsystem {
         }
 
         Rotation2d current = getAngle();
-
-        double raw_error = current.distance(azimuth);
+        double raw_error = azimuth.getRadians() - current.getRadians();
+        // raw_error = raw_error - Math.floor(raw_error/(2*Math.PI)) * 2*Math.PI; // bound error between 0 and 2pi
+       
         if (Math.abs(raw_error) > Math.PI) {
             raw_error -= (Math.PI * 2 * Math.signum(raw_error));
         }
 
         // error is -180 to 180
         // is wheel reversible logic
-        if (Math.abs(raw_error) > Math.PI / 2) {
+        if (Math.abs(raw_error) > Math.PI / 2.0) {
             speed *= -1;
             raw_error -= Math.PI * Math.signum(raw_error);
         }
+        if (mConstants.kName.equals("Front Right")) {
+            System.out.println(raw_error);
+        }
 
-        double final_setpoint = getRawAngle() + raw_error;
+
+        double final_setpoint = current.getRadians() + raw_error;
         // double adjusted_speed = speed * Math.abs(Math.cos(raw_error));
 
         mPeriodicIO.drive_demand = speed;
         mPeriodicIO.azimuth_demand = radiansToEncoderUnits(final_setpoint);
     }
 
+    
+
     @Override
     public void readPeriodicInputs() {
         mPeriodicIO.drive_encoder_ticks = mDriveTalon.getSelectedSensorPosition(0);
         mPeriodicIO.distance = (int) encoderUnitsToDistance(mPeriodicIO.drive_encoder_ticks);
         mPeriodicIO.velocity_ticks_per_100ms = (int) mDriveTalon.getSelectedSensorVelocity(0);
-
         mAzimuthAverage.addObservation(mAzimuthEncoder.getDistance());
         SmartDashboard.putNumber(mConstants.kName + " Module average", mAzimuthAverage.getValue());
         mPeriodicIO.azimuth_encoder_ticks = mAzimuthAverage.getValue();
@@ -271,9 +277,8 @@ public class SwerveModule extends Subsystem {
                 // throttle is 0
                 stop();
             } else {
-                mAzimuthPIDF.setSetpoint(mPeriodicIO.azimuth_demand - mConstants.kAzimuthEncoderHomeOffset);
-                double x = mAzimuthPIDF.calculate(
-                        mPeriodicIO.azimuth_encoder_ticks - mConstants.kAzimuthEncoderHomeOffset);
+                mAzimuthPIDF.setSetpoint(mPeriodicIO.azimuth_demand + mConstants.kAzimuthEncoderHomeOffset);
+                double x = mAzimuthPIDF.calculate(mPeriodicIO.azimuth_encoder_ticks);
                 SmartDashboard.putNumber(mConstants.kName + " pidf value: ", x);
                 mAzimuthTalon.set(ControlMode.PercentOutput, x);
 
@@ -391,11 +396,11 @@ public class SwerveModule extends Subsystem {
     }
 
     public synchronized double getAngleEncoderUnits() {
-        return mPeriodicIO.azimuth_encoder_ticks;
+        return mPeriodicIO.azimuth_encoder_ticks - mConstants.kAzimuthEncoderHomeOffset;
     }
 
     public synchronized Rotation2d getAngle() {
-        return Rotation2d.fromRadians((encoderUnitsToRadians(getAngleEncoderUnits())));
+        return Rotation2d.fromRadians(encoderUnitsToRadians(getAngleEncoderUnits()));
     }
 
     public synchronized double getRawAngle() {

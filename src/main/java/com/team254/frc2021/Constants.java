@@ -1,10 +1,13 @@
 package com.team254.frc2021;
 
 import com.team254.frc2021.subsystems.SwerveModule.SwerveModuleConstants;
+import com.team254.lib.geometry.Translation2d;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * A list of constants used by the rest of the robot code. This includes physics
@@ -36,10 +39,10 @@ public class Constants {
         kFrontRightModuleConstants.kDriveTalonId = 1;
         kFrontRightModuleConstants.kAzimuthTalonId = 2;
         kFrontRightModuleConstants.kAzimuthEncoderPort = 2;
-        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 1016;
+        kFrontRightModuleConstants.kAzimuthEncoderHomeOffset = 2008;
         kFrontRightModuleConstants.kInvertDrive = true;
         kFrontRightModuleConstants.kInvertAzimuth = false;
-        kFrontRightModuleConstants.kInvertDriveSensorPhase = false;
+        kFrontRightModuleConstants.kInvertDriveSensorPhase = true;
         kFrontRightModuleConstants.kInvertAzimuthSensorPhase = false;
     }
 
@@ -50,7 +53,7 @@ public class Constants {
         kFrontLeftModuleConstants.kDriveTalonId = 3;
         kFrontLeftModuleConstants.kAzimuthTalonId = 4;
         kFrontLeftModuleConstants.kAzimuthEncoderPort = 3;
-        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 2806;
+        kFrontLeftModuleConstants.kAzimuthEncoderHomeOffset = 3830;
         kFrontLeftModuleConstants.kInvertDrive = true;
         kFrontLeftModuleConstants.kInvertAzimuth = false;
         kFrontLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -64,7 +67,7 @@ public class Constants {
         kBackLeftModuleConstants.kDriveTalonId = 5;
         kBackLeftModuleConstants.kAzimuthTalonId = 6;
         kBackLeftModuleConstants.kAzimuthEncoderPort = 0;
-        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 2203;
+        kBackLeftModuleConstants.kAzimuthEncoderHomeOffset = 3209;
         kBackLeftModuleConstants.kInvertDrive = true;
         kBackLeftModuleConstants.kInvertAzimuth = false;
         kBackLeftModuleConstants.kInvertDriveSensorPhase = false;
@@ -78,12 +81,21 @@ public class Constants {
         kBackRightModuleConstants.kDriveTalonId = 7;
         kBackRightModuleConstants.kAzimuthTalonId = 8;
         kBackRightModuleConstants.kAzimuthEncoderPort = 1;
-        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 3860;
+        kBackRightModuleConstants.kAzimuthEncoderHomeOffset = 785;
         kBackRightModuleConstants.kInvertDrive = true;
         kBackRightModuleConstants.kInvertAzimuth = false;
         kBackRightModuleConstants.kInvertDriveSensorPhase = false;
         kBackRightModuleConstants.kInvertAzimuthSensorPhase = false;
     }
+
+    //Swerve Module Positions (Defined in our Frame of Reference +x = forward, +y = left)
+    public static final Translation2d kVehicleToModuleZero = new Translation2d(kDriveWheelbase/2, kDriveTrackwidth/2);
+	public static final Translation2d kVehicleToModuleOne = new Translation2d(kDriveWheelbase/2, -kDriveTrackwidth/2);
+    public static final Translation2d kVehicleToModuleTwo = new Translation2d(-kDriveWheelbase/2, -kDriveTrackwidth/2);
+	public static final Translation2d kVehicleToModuleThree = new Translation2d(-kDriveWheelbase/2, kDriveTrackwidth/2);
+	
+	public static final List<Translation2d> kModulePositions = Arrays.asList(kVehicleToModuleZero,
+			kVehicleToModuleOne, kVehicleToModuleTwo, kVehicleToModuleThree);
 
     // TODO tune
     // Swerve Heading Controller

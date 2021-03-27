@@ -1,6 +1,7 @@
 package com.team254.lib.util;
 
 import com.team254.frc2021.Kinematics;
+import com.team254.frc2021.Kinematics1323;
 import com.team254.lib.geometry.Rotation2d;
 import com.team254.lib.geometry.Translation2d;
 
@@ -80,5 +81,10 @@ public class SwerveDriveHelper {
         Translation2d translationalInput = new Translation2d(forwardInput, strafeInput);
 
         return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput, field_relative);
+    }
+
+    public static DriveSignal use1323Solution(double forwardInput, double strafeInput, double rotationInput) {
+        Translation2d translationalVector = new Translation2d(forwardInput, strafeInput);
+        return Kinematics1323.inverseKinematics(translationalVector, rotationInput);
     }
 }

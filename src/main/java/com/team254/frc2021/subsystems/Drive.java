@@ -57,10 +57,10 @@ public class Drive extends Subsystem {
     private Drive() {
         mPigeonIMU = new PigeonIMU(Constants.kPigeonId);
 
-        mModules[0] = new SwerveModule(Constants.kFrontRightModuleConstants);
-        mModules[1] = new SwerveModule(Constants.kFrontLeftModuleConstants);
-        mModules[2] = new SwerveModule(Constants.kBackLeftModuleConstants);
-        mModules[3] = new SwerveModule(Constants.kBackRightModuleConstants);
+        mModules[0] = new SwerveModule(Constants.kFrontLeftModuleConstants);
+        mModules[1] = new SwerveModule(Constants.kFrontRightModuleConstants);
+        mModules[2] = new SwerveModule(Constants.kBackRightModuleConstants);
+        mModules[3] = new SwerveModule(Constants.kBackLeftModuleConstants);
     }
 
     public synchronized void setOpenLoop(DriveSignal signal) {
@@ -125,9 +125,7 @@ public class Drive extends Subsystem {
 //                            setOpenLoop(SwerveDriveHelper.calculateDriveSignal(mPeriodicIO.forward,
 //                                    mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
 //                                    mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
-                            setOpenLoop(SwerveDriveHelper.passOnDriveSignal(mPeriodicIO.forward,
-                                    mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
-                                    mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
+                            setOpenLoop(SwerveDriveHelper.use1323Solution(mPeriodicIO.forward, mPeriodicIO.strafe, mPeriodicIO.rotation));
                             break;
                         default:
                             System.out.println("Unexpected control state: " + mDriveControlState);
