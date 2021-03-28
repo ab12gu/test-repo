@@ -42,6 +42,8 @@ public class Robot extends TimedRobot {
 
         mSubsystemManager.registerEnabledLoops(mEnabledLooper);
         mSubsystemManager.registerDisabledLoops(mDisabledLooper);
+
+        mDrive.zeroSensors();
     }
 
     @Override

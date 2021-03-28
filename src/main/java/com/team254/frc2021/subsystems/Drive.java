@@ -88,7 +88,7 @@ public class Drive extends Subsystem {
 
     @Override
     public void readPeriodicInputs() {
-        mPeriodicIO.gyro_heading = Rotation2d.fromDegrees(mPigeonIMU.getFusedHeading()).rotateBy(mGyroOffset.inverse());
+        mPeriodicIO.gyro_heading = Rotation2d.fromDegrees(mPigeonIMU.getFusedHeading()).rotateBy(mGyroOffset);
 
         mPeriodicIO.timestamp = Timer.getFPGATimestamp();
 
@@ -183,7 +183,7 @@ public class Drive extends Subsystem {
      * @param heading local heading
      */
     public synchronized void setHeading(Rotation2d heading) {
-        mGyroOffset = heading.rotateBy(Rotation2d.fromRadians(mPigeonIMU.getFusedHeading()).inverse());
+        mGyroOffset = heading.rotateBy(Rotation2d.fromDegrees(mPigeonIMU.getFusedHeading()).inverse());
 
         mPeriodicIO.gyro_heading = heading;
     }
