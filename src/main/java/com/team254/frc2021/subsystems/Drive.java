@@ -50,7 +50,7 @@ public class Drive extends Subsystem {
     private PigeonIMU mPigeonIMU;
     private SwerveModule[] mModules = new SwerveModule[4];
 
-    private Rotation2d mGyroOffset = Rotation2d.identity();
+    private Rotation2d mGyroOffset = Rotation2d.fromDegrees(0);
 
     private ReflectingCSVWriter<PeriodicIO> mCSVWriter = null;
 
@@ -88,7 +88,7 @@ public class Drive extends Subsystem {
 
     @Override
     public void readPeriodicInputs() {
-        mPeriodicIO.gyro_heading = Rotation2d.fromRadians(mPigeonIMU.getFusedHeading()).rotateBy(mGyroOffset);
+        mPeriodicIO.gyro_heading = Rotation2d.fromDegrees(mPigeonIMU.getFusedHeading()).rotateBy(mGyroOffset.inverse());
 
         mPeriodicIO.timestamp = Timer.getFPGATimestamp();
 
@@ -122,10 +122,9 @@ public class Drive extends Subsystem {
                 synchronized (Drive.this) {
                     switch (mDriveControlState) {
                         case OPEN_LOOP:
-//                            setOpenLoop(SwerveDriveHelper.calculateDriveSignal(mPeriodicIO.forward,
-//                                    mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
-//                                    mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
-                            setOpenLoop(SwerveDriveHelper.use1323Solution(mPeriodicIO.forward, mPeriodicIO.strafe, mPeriodicIO.rotation));
+                            setOpenLoop(SwerveDriveHelper.calculateDriveSignal(mPeriodicIO.forward,
+                                    mPeriodicIO.strafe, mPeriodicIO.rotation, mPeriodicIO.low_power,
+                                    mPeriodicIO.field_relative, mPeriodicIO.use_heading_controller));
                             break;
                         default:
                             System.out.println("Unexpected control state: " + mDriveControlState);

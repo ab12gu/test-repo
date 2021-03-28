@@ -5,6 +5,7 @@ import com.team254.frc2021.Constants;
 import com.team254.frc2021.subsystems.Drive;
 import com.team254.lib.geometry.Pose2d;
 import com.team254.lib.geometry.Rotation2d;
+import com.team254.lib.geometry.Translation2d;
 import com.team254.lib.geometry.Twist2d;
 import com.team254.lib.util.DriveSignal;
 
@@ -78,8 +79,8 @@ public class Kinematics {
      * rotation.
      */
     public static Pose2d integrateForwardKinematics(Pose2d current_pose, Twist2d forward_kinematics) {
-        return current_pose.transformBy(new Pose2d(forward_kinematics.dx, forward_kinematics.dy,
-                Rotation2d.fromRadians(forward_kinematics.dtheta)));
+        return new Pose2d(current_pose.getTranslation().translateBy(new Translation2d(forward_kinematics.dx, forward_kinematics.dy)),
+                current_pose.getRotation().rotateBy(Rotation2d.fromRadians(forward_kinematics.dtheta)));
     }
 
     public static DriveSignal inverseKinematics(double forward, double strafe, double rotation,
