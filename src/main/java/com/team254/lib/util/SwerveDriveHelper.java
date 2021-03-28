@@ -71,8 +71,7 @@ public class SwerveDriveHelper {
             rotationInput *= kHighPowerRotationScalar;
         }
 
-        return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput,
-                field_relative);
+        return Kinematics1323.inverseKinematics(translationalInput, rotationInput);
     }
 
     public static DriveSignal passOnDriveSignal(double forwardInput, double strafeInput, double rotationInput,
