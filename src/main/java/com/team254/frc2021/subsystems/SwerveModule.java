@@ -242,9 +242,6 @@ public class SwerveModule extends Subsystem {
             speed *= -1;
             raw_error -= Math.PI * Math.signum(raw_error);
         }
-        if (mConstants.kName.equals("Front Right")) {
-            System.out.println(raw_error);
-        }
 
 
         double final_setpoint = current.getRadians() + raw_error;
@@ -359,7 +356,7 @@ public class SwerveModule extends Subsystem {
                 Util.epsilonEquals(mPeriodicIO.drive_demand, getDrivePercentOutput()));
 
         SmartDashboard.putBoolean(mConstants.kName + " Module: Azimuth At Target", isAzimuthAtTarget());
-        SmartDashboard.putNumber(mConstants.kName + " Module: Current", mAzimuthTalon.getOutputCurrent());
+        SmartDashboard.putNumber(mConstants.kName + " Module: Current", mAzimuthTalon.getStatorCurrent());
         SmartDashboard.putNumber(mConstants.kName + " Module: Voltage", mAzimuthTalon.getMotorOutputVoltage());
 
         if (mCSVWriter != null) {
