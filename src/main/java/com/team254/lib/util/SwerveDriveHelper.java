@@ -71,7 +71,8 @@ public class SwerveDriveHelper {
             rotationInput *= kHighPowerRotationScalar;
         }
 
-        return Kinematics1323.inverseKinematics(translationalInput, rotationInput);
+//        return Kinematics1323.inverseKinematics(translationalInput, rotationInput, field_relative);
+        return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput, field_relative);
     }
 
     public static DriveSignal passOnDriveSignal(double forwardInput, double strafeInput, double rotationInput,
@@ -82,8 +83,8 @@ public class SwerveDriveHelper {
         return Kinematics.inverseKinematics(translationalInput.x(), translationalInput.y(), rotationInput, field_relative);
     }
 
-    public static DriveSignal use1323Solution(double forwardInput, double strafeInput, double rotationInput) {
+    public static DriveSignal use1323Solution(double forwardInput, double strafeInput, double rotationInput, boolean field_relative) {
         Translation2d translationalVector = new Translation2d(forwardInput, strafeInput);
-        return Kinematics1323.inverseKinematics(translationalVector, rotationInput);
+        return Kinematics1323.inverseKinematics(translationalVector, rotationInput, field_relative);
     }
 }

@@ -127,11 +127,9 @@ public class Robot extends TimedRobot {
         } else {
             if (!maintainAzimuth) {
                 mSwerveHeadingController.setHeadingControllerState(SwerveHeadingController.HeadingControllerState.OFF);
-            } else if ((mSwerveHeadingController
-                    .getHeadingControllerState() == SwerveHeadingController.HeadingControllerState.SNAP
+            } else if ((mSwerveHeadingController.getHeadingControllerState() == SwerveHeadingController.HeadingControllerState.SNAP
                     && mSwerveHeadingController.isAtGoal()) || changeAzimuthSetpoint) {
-                mSwerveHeadingController
-                        .setHeadingControllerState(SwerveHeadingController.HeadingControllerState.MAINTAIN);
+                mSwerveHeadingController.setHeadingControllerState(SwerveHeadingController.HeadingControllerState.MAINTAIN);
                 mSwerveHeadingController.setGoal(mDrive.getHeading().getDegrees());
             }
         }
