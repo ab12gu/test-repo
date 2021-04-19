@@ -47,9 +47,9 @@ public class SwerveModule extends Subsystem {
         public double kAzimuthEncoderHomeOffset = 0;
 
         // azimuth motion TODO tune
-        public double kAzimuthKp = 0.001;
-        public double kAzimuthKi = 0.01;
-        public double kAzimuthKd = 0.000001;
+        public double kAzimuthKp = 0.00103;
+        public double kAzimuthKi = 0.0;
+        public double kAzimuthKd = 0.00002;
         public double kAzimuthKf = 0;
         public int kAzimuthIZone = 0;
         public int kAzimuthCruiseVelocity = 0;
@@ -120,7 +120,7 @@ public class SwerveModule extends Subsystem {
         TalonUtil.checkError(
                 mDriveTalon.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0,
                         Constants.kLongCANTimeoutMs),
-                "Error in " + mConstants.kName + "Module: Unable to config drive encoder");
+                "Error in " + mConstants.kName + " Module: Unable to config drive encoder");
 
         // config azimuth motion
 //        TalonUtil.checkError(

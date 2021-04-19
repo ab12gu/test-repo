@@ -102,9 +102,9 @@ public class Constants {
     public static final double kSwerveHeadingControllerErrorTolerance = 0.0; // degrees
 
     // good for snapping (dpad)
-    public static final double kSnapSwerveHeadingKp = 0;
-    public static final double kSnapSwerveHeadingKi = 0;
-    public static final double kSnapSwerveHeadingKd = 0;
+    public static final double kSnapSwerveHeadingKp = 0.019;
+    public static final double kSnapSwerveHeadingKi = 0.02;
+    public static final double kSnapSwerveHeadingKd = 0.0021;
 
     // good for maintaining heading
     public static final double kMaintainSwerveHeadingKp = 0;
